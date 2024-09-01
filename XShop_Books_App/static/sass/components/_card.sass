@@ -1,0 +1,65 @@
+@use "../base/_variables" as var
+@use "../base/_mixins.sass" as mix
+
+.card
+    border: none
+    box-shadow: 0px 0px 10px var.$primary-color-b
+    overflow: hidden
+    border-radius: .8rem
+    @include mix.tablet()
+        border-radius: 1rem !important
+
+    @include mix.desktop()
+        box-shadow: 0px 0px 3px var.$primary-color-b
+
+    .card-img-top
+        background-color: var.$primary-color-b
+        border-radius: 0
+
+        img
+            height: 15rem
+            transform: rotateZ(4deg)
+
+    .card-body
+        .card-title
+            text-transform: uppercase
+            font: 800 1.4em var.$open-sans
+            color: var.$primary-color
+            @include mix.tablet()
+                font-size: 1.6em
+
+        p
+            color: var.$secondary-color !important
+            font: 700 1.2em var.$open-sans !important
+            @include mix.tablet()
+                font-size: 1.4em !important
+
+        .save-product-methods
+            button
+                font-size: 1.1em
+                @include mix.tablet()
+                    font-size: 1.3em
+
+        .number-of-units-container
+            button
+                border: none
+                background-color: var.$quinary-color
+                color: var.$quartenary-color
+                font-size: 1.1em
+
+            .form-control
+                border: 2px solid var.$primary-color
+                color: var.$primary-color
+                font: 700 1.1em var.$open-sans
+                text-align: center
+                @include mix.tablet()
+                    font-size: 1.3em
+
+                &::placeholder
+                    color: var.$primary-color
+
+                &:active,
+                &:focus,
+                &:hover
+                    border: 2px solid var.$primary-color !important
+                    box-shadow: 0px 0px 2px var.$primary-color !important

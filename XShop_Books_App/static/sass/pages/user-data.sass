@@ -1,0 +1,109 @@
+@use "../base/_variables" as var
+@use "../base/_mixins" as mix
+@use "../base/_reset"
+@use "../components/_header"
+@use "../components/_form"
+@use "../components/_button"
+@use "../components/_modal"
+@use "../components/_footer"
+
+main
+    #settings-area
+        h1
+            font: 700 2em var.$mukta
+            color: var.$secondary-color
+    
+        .accordion
+            @include mix.tablet()
+                width: 80%
+
+            @include mix.tvDesktop()
+                width: 60%
+
+            .accordion-item
+                .accordion-header
+                    .accordion-button
+                        background-color: var.$quartenary-color
+
+                        &:active,
+                        &:focus
+                            box-shadow: none
+                            border: none
+                            background-color: var.$quartenary-color
+
+                        i
+                            font-size: 1.2em
+                            color: var.$tertiary-color
+                            @include mix.tablet()
+                                font-size: 1.5em
+
+                        span
+                            font-family: var.$open-sans
+                            font-size: 1.08em
+                            color: var.$tertiary-color
+                            @include mix.tablet()
+                                font-size: 1.3em
+
+                        &::after
+                            background-image: none
+                            content: '\F27E'
+                            font-family: bootstrap-icons
+                            color: var.$tertiary-color
+                            font-size: 1.2em
+                            @include mix.tablet()
+                                font-size: 1.4em
+
+                .accordion-collapse
+                    .accordion-body
+                        ul,
+                        ol
+                            list-style-type: none
+
+                            li
+                                color: var.$primary-color
+                                font-size: 1.1em
+                                @include mix.tablet()
+                                    font-size: 1.3em
+
+                                a
+                                    color: var.$quinary-color
+                                    &:active,
+                                    &:focus
+                                        text-decoration: underline
+
+                        .accordion-actions
+                            button
+                                &.btn-system
+                                    font-size: 1em
+
+                        form
+                            .form-label
+                                @include mix.tablet()
+                                    font-size: 1.3em
+
+                            .form-control
+                                @include mix.tablet()
+                                    font-size: 1.2em
+
+                            textarea
+                                @include mix.tablet()
+                                    font-size: 1.3em
+
+                        p
+                            @include mix.tablet()
+                                font-size: 1.3em
+
+                            a
+                                color: var.$primary-color
+                                font-weight: 600
+
+                                &:focus,
+                                &:hover
+                                    text-decoration: underline
+
+                        .accordion-actions
+                            button
+                                &.btn-system
+                                    font-size: 1em
+                                    @include mix.tablet()
+                                        font-size: 1.2em

@@ -1,0 +1,16 @@
+@use "../base/variables" as var
+@use "../base/mixins" as mix
+@use "../base/reset"
+@use "../components/header"
+@use "../components/button"
+@use "../components/cta-container"
+@use "../components/footer"
+
+main
+    height: 80vh
+
+    .cta-container
+        h1
+            font-size: 1.8em !important
+            @include mix.tablet()
+                font-size: 2.2em !important

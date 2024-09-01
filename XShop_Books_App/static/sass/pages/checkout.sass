@@ -1,0 +1,94 @@
+@use "../base/variables" as var
+@use "../base/mixins" as mix
+@use "../base/reset"
+@use "../components/header"
+@use "../components/button"
+@use "../components/form"
+@use "../components/card"
+@use "../components/cta-container"
+@use "../components/modal"
+@use "../components/footer"
+
+main
+    #checkout-container
+        h1
+            font-family: var.$mukta
+            font-weight: 700
+            color: var.$secondary-color
+
+        p
+            font-size: 1.1em
+            @include mix.tablet()
+                font-size: 1.4em
+
+            &:first-of-type
+                font-family: var.$mukta
+                font-weight: 500
+                color: var.$quinary-color
+
+                strong
+                    font-family: var.$mukta
+                    font-weight: 700
+
+            &:last-child
+                font-family: var.$open-sans
+                color: var.$primary-color
+
+        form
+            @include mix.tablet()
+                width: 80%
+
+            @include mix.desktop()
+                width: 70%
+
+            @include mix.tvDesktop()
+                width: 60%
+
+            .form-label
+                cursor: pointer
+                @include mix.tablet()
+                    font-size: 1.3em
+
+            .input-group
+                .input-group-text,
+                .form-control,
+                .form-select
+                    @include mix.tablet()
+                        font-size: 1.3em
+
+            button
+                @include mix.tablet()
+                    width: 50% !important
+
+        p
+            @include mix.tablet()
+                width: 80%
+
+            @include mix.desktop()
+                width: 70%
+
+            @include mix.tvDesktop()
+                width: 60%
+
+    #upsell-container
+        h2.container-title
+            font-family: var.$mukta
+            font-weight: 700
+            color: var.$secondary-color
+            text-transform: uppercase
+            letter-spacing: 2px
+
+            &::before
+                content: ""
+                display: block
+                width: 15%
+                height: 4px
+                background-color: var.$tertiary-color
+                margin: 0px 0px 3px 4px
+                @include mix.tablet()
+                    display: none
+
+        #books-container
+            @include mix.booksContainer()
+            @include mix.tvDesktop()
+                width: 90%

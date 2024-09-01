@@ -1,0 +1,168 @@
+@use "../base/variables" as var
+@use "../base/mixins" as mix
+@use "../base/reset"
+@use "../base/animations"
+@use "../components/header"
+@use "../components/button"
+@use "../components/card"
+@use "../components/cta-container"
+@use "../components/modal"
+@use "../components/footer"
+
+main
+    @include mix.tvDesktop()
+        width: 80vw
+
+    #search-area-overlay
+        width: 100vw
+        height: 100vh
+        background-image: linear-gradient(45deg, var.$quartenary-color-b 50%, var.$secondary-color)
+        z-index: 2
+        opacity: 0
+        visibility: hidden
+        transition: all .5s ease-in
+
+        &.show
+            opacity: 1
+            visibility: visible
+
+        #search-area
+            @include mix.tablet()
+                height: 12rem
+
+            .form-control
+                font-family: var.$open-sans
+                font-size: 1.1em
+                box-shadow: 0px 0px 3px var.$primary-color-b
+                color: var.$primary-color
+                @include mix.tablet()
+                    font-size: 1.4em
+
+                &::placeholder
+                    color: var.$primary-color-b
+
+                &:focus
+                    box-shadow: 0px 0px 3px var.$primary-color-b !important
+
+    #carousel-promo
+        z-index: 1
+        @include mix.desktop()
+            width: 90vw
+
+        @include mix.tvDesktop()
+            width: 100%
+
+        .carousel-indicators
+            button
+                @include mix.tablet()
+                    width: 50px
+                    height: 5px
+
+        .carousel-inner
+            .carousel-item
+                img
+                    height: 50vh
+                    @include mix.desktop()
+                        height: 60vh
+
+        button
+            span
+                @include mix.tablet()
+                    width: 3rem
+                    height: 3rem
+
+    #carousel-shop-features
+        overflow: hidden
+
+        #slide-track
+            width: calc(240px * 10)
+            animation: scroll-infinite 10s cubic-bezier(.45,.21,.56,.76) infinite alternate-reverse
+
+            .slide
+                width: 240px !important
+                font-family: var.$open-sans
+                background-color: var.$quinary-color
+                color: var.$quartenary-color
+                white-space: nowrap
+                user-select: none
+                @include mix.tablet()
+                    font-size: 1.3em
+                    border-radius: .8rem !important
+                    width: 300px !important
+
+                i
+                    font-size: 1.6em
+
+    #books-area
+        h1
+            font-family: var.$mukta
+            font-weight: 700
+            color: var.$secondary-color
+            text-transform: uppercase
+            letter-spacing: 2px
+            @include mix.tablet()
+                font-size: 2.2em
+
+            &::before
+                content: ""
+                display: block
+                width: 15%
+                height: 4px
+                background-color: var.$tertiary-color
+                margin: 0px 0px 3px 4px
+                @include mix.tablet()
+                    display: none
+
+        p
+            font-size: 1.1em
+            font-family: var.$open-sans
+            color: var.$quinary-color
+            @include mix.tablet()
+                font-size: 1.3em
+
+        #books-container
+            @include mix.booksContainer()
+
+    #shop-cart-cta
+        bottom: 20px
+        right: 20px
+        @include mix.tablet()
+            bottom: 40px
+            right: 40px
+
+        button
+            border: none
+            color: var.$quartenary-color
+            font-family: var.$open-sans
+            background-color: var.$quinary-color
+            box-shadow: 0px 0px 20px var.$quinary-color
+            font-size: 1.3em
+            width: 50px
+            height: 50px
+            transition: all .3s ease-in
+            @include mix.tablet()
+                width: 70px
+                height: 70px
+
+            &:active,
+            &:hover
+                background-color: var.$quartenary-color
+                color: var.$quinary-color
+                box-shadow: 0px 0px 20px var.$quartenary-color
+
+            i
+                @include mix.tablet()
+                    font-size: 1.5em
+
+            span
+                background-color: var.$primary-color
+                width: 30px
+                height: 30px
+                top: -10px
+                right: -12px
+                @include mix.tablet()
+                    font-size: 1.4em
+                    width: 40px
+                    height: 40px
+                    top: -15px
+                    right: -20px

@@ -1,0 +1,21 @@
+@use "variables" as var
+
+body
+    background-color: var.$quartenary-color
+    font-family: var.$open-sans !important
+    overflow-x: hidden
+
+a
+    text-decoration: none
+
+::-webkit-scrollbar
+    width: .8rem
+
+::-webkit-scrollbar-track
+    background-color: transparent
+
+::-webkit-scrollbar-thumb
+    background-color: rgba(0, 0, 0, 0.505)
+
+    &:hover
+        background-color: rgba(0, 0, 0, 0.272)

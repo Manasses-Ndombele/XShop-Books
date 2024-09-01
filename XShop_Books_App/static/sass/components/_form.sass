@@ -1,0 +1,66 @@
+@use "../base/variables" as var
+
+form
+    p
+        font-size: 1.1em
+
+    .form-label
+        font-family: var.$open-sans
+        font-size: 1.1em
+        color: var.$primary-color
+
+    .input-group
+        border-radius: .5rem
+        overflow: hidden
+        border: 2px solid var.$primary-color
+
+        &.active
+            box-shadow: 0px 0px 3px var.$primary-color
+
+        .input-group-text
+            background-color: var.$quartenary-color-b
+            color: var.$primary-color
+            border-radius: 0px
+            border: none
+            border-right: 2px solid var.$primary-color
+
+        .form-control,
+        .form-select
+            &:active,
+            &:focus
+                box-shadow: none !important
+                border: none !important
+
+    .form-control,
+    .form-select
+        font-family: var.$open-sans
+        color: var.$primary-color
+        border-radius: 0px
+        border: none
+
+        &.borders
+            border: 2px solid var.$primary-color
+            border-radius: .5rem
+
+            &:active,
+            &:focus
+                border: 2px solid var.$primary-color !important
+                box-shadow: 0px 0px 3px var.$primary-color !important
+
+        &::placeholder
+            color: var.$primary-color-b
+
+    .form-select
+        &#month-expiration-field
+            border-right: 2px solid var.$primary-color
+
+        option
+            background-color: var.$quartenary-color
+            color: var.$tertiary-color
+            font-family: var.$open-sans
+
+            &[selected],
+            &:active,
+            &:focus
+                background-color: var.$tertiary-color !important
+                color: var.$primary-color

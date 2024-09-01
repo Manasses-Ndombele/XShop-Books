@@ -1,0 +1,306 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <meta name="user-status" content="{{ request.user.is_authenticated }}">
+        <title>XShop Books - Online shop of books</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/user-data.min.css' %}">
+    </head>
+    <body>
+        <header id="main-header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        <img src="{% static 'images/logo.png' %}" alt="Logotipo da XShop Books">
+                        XShop
+                    </a>
+                    <div id="navbar-options">
+                        <a href="{% url 'home' %}">
+                            <button type="button" id="home-btn" class="btn-icon">
+                                <i class="bi bi-house-fill"></i>
+                            </button>
+                        </a>
+                        <a href="{% url 'logout' %}">
+                            <button type="button" id="logout-btn" class="btn-icon">
+                                <i class="bi bi-box-arrow-left"></i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <div id="settings-area" class="py-4 px-2">
+                <h1 class="text-center mb-4 text-capitalize">Your account</h1>
+                <div class="accordion accordion-flush mx-md-auto" id="settings-accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setting-collapse-one" aria-expanded="false" aria-controls="setting-collapse-one">
+                                <i class="bi bi-person-circle me-1 me-md-2"></i>
+                                <span>My account</span>
+                            </button>
+                        </h2>
+                        <div id="setting-collapse-one" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <form id="update-user-info-form" data-status="disabled">
+                                    {% csrf_token %}
+                                    <label for="username-field" class="form-label">Username</label>
+                                    <input type="text" name="username" id="username-field" class="form-control borders mb-3" value="{{ request.user.username }}" readonly required>
+                                    <label for="email-field1" class="form-label">Email</label>
+                                    <input type="email" name="email" id="email-field1" class="form-control borders mb-3" value="{{ request.user.email }}" readonly required>
+                                    <input type="submit" value="Send" id="update-user-data-btn" class="visually-hidden">
+                                </form>
+                                <div class="accordion-actions d-flex justify-content-between">
+                                    <button type="button" id="update-password-btn" class="btn-system p-2 rounded-3" data-bs-target="#update-passwd-modal" data-bs-toggle="modal">
+                                        <i class="bi bi-asterisk"></i>
+                                        <span>Change password</span>
+                                    </button>
+                                    <button type="button" id="save-user-data-btn" class="btn-system p-2 rounded-3">
+                                        <i class="bi bi-pencil-square"></i>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button class="visually-hidden" data-bs-toggle="modal" data-bs-target="#operation-status-modal" id="operation-status-modal-btn"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setting-collapse-three" aria-expanded="false" aria-controls="setting-collapse-three">
+                                <i class="bi bi-tags-fill me-1 me-md-2"></i>
+                                <span>Coupons</span>
+                            </button>
+                        </h2>
+                        <div id="setting-collapse-three" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                {% if coupons.count > 0 %}
+                                <ol type="1">
+                                {% for coupon in coupons %}
+                                    <li class="mb-2">{{ coupon.name }} - <strong>{{ coupon.discount }}%</strong></li>
+                                {% endfor %}
+                                </ol>
+                                {% else %}
+                                <p>At the moment no discount coupon is available!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setting-collapse-four" aria-expanded="false" aria-controls="setting-collapse-four">
+                                <i class="bi bi-clock-fill me-1 me-md-2"></i>
+                                <span>Purchasing history</span>
+                            </button>
+                        </h2>
+                        <div id="setting-collapse-four" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                {% if purchases.count > 0 %}
+                                <ul>
+                                    {% for purchase in purchases %}
+                                    <li class="mb-2">
+                                        <span>{{ purchase.date.day }}/{{ purchase.date.month }}/{{ purchase.date.year }} - {{ purchase.date.hour }}h e {{ purchase.date.minute }} min</span>
+                                        <a class="#">- {{ purchase.total }} US$</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <p>You have not purchased any product, click below to go to the store:<br><a href="{% url 'home' %}">XShop Books</a></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setting-collapse-five" aria-expanded="false" aria-controls="setting-collapse-five">
+                                <i class="bi bi-heart-fill me-1 me-md-2"></i>
+                                <span>Favorites</span>
+                            </button>
+                        </h2>
+                        <div id="setting-collapse-five" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                {% if favorites.count > 0 %}
+                                <ol>
+                                {% for favorite in favorites %}
+                                    <li class="mb-2">
+                                        <a href="#">{{ favorite.product.title }}</a>
+                                    </li>
+                                {% endfor %}
+                                </ol>
+                                {% else %}
+                                <p>There is no product marked as favorite!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setting-collapse-six" aria-expanded="false" aria-controls="setting-collapse-six">
+                                <i class="bi bi-bookmark-check-fill me-1 me-md-2"></i>
+                                <span>Saved</span>
+                            </button>
+                        </h2>
+                        <div id="setting-collapse-six" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                {% if saveds.count > 0 %}
+                                <ol>
+                                {% for saved in saveds %}
+                                    <li class="mb-2">
+                                        <a href="#">{{ saved.product.title }}</a>
+                                    </li>
+                                {% endfor %}
+                                </ol>
+                                {% else %}
+                                <p>There is no product marked as saved!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setting-collapse-seven" aria-expanded="false" aria-controls="setting-collapse-seven">
+                                <i class="bi bi-info-circle-fill me-1 me-md-2"></i>
+                                <span>Complaints and Returns</span>
+                            </button>
+                        </h2>
+                        <div id="setting-collapse-seven" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <form>
+                                    <label for="message-field1" class="form-label">Message</label>
+                                    <textarea name="message" id="message-field1" class="form-control borders mb-3" placeholder="Describe your complaint" rows="8"></textarea>
+                                    <button type="submit" class="btn-system btn-system p-2 rounded-3">
+                                        <i class="bi bi-send-fill"></i>
+                                        <span>Send</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#setting-collapse-eight" aria-expanded="false" aria-controls="setting-collapse-eight">
+                                <i class="bi bi-chat-dots-fill me-1 me-md-2"></i>
+                                <span>Feedbacks</span>
+                            </button>
+                        </h2>
+                        <div id="setting-collapse-eight" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <form>
+                                    <label for="message-field2" class="form-label">Message</label>
+                                    <textarea name="message" id="message-field2" class="form-control borders mb-3" placeholder="Describe your feedback" rows="8"></textarea>
+                                    <button type="submit" class="btn-system btn-system p-2 rounded-3">
+                                        <i class="bi bi-send-fill"></i>
+                                        <span>Send</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="update-passwd-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Change password</h4>
+                            <button type="button" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body d-flex align-items-center flex-column">
+                            <form id="change-password-form" class="w-100">
+                                {% csrf_token %}
+                                <label for="old-password-field" class="form-label">Old password</label>
+                                <input type="text" name="old-password" id="old-password-field" class="form-control borders mb-2" placeholder="Your old password" required>
+                                <label for="new-password-field" class="form-label">New password</label>
+                                <input type="text" name="new-password" id="new-password-field" class="form-control borders mb-2" placeholder="Your new password" required>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="w-100 btn-system mb-3 p-2 rounded-3" id="change-password-btn">
+                                <i class="bi bi-pencil-square"></i>
+                                <span>Apply</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="operation-status-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Success!</h4>
+                            <button type="button" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body d-flex flex-column align-items-center"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="px-3 py-4 px-md-2">
+            <div id="footer-options" class="d-md-flex justify-content-md-between flex-md-row-reverse gap-md-2 justify-content-lg-around">
+                <div id="newsletter-area" class="mb-4">
+                    <h4>Stay on top of news</h4>
+                    <form>
+                        <label for="email-field2" class="form-label d-block my-2">Subscribe</label>
+                        <input type="email" name="email" id="email-field2" class="form-control borders mb-3 mb-2" placeholder="Enter your best email" required>
+                        <button type="submit" class="btn-system py-2 px-3 rounded-3 mt-2">
+                            <i class="bi bi-envelope-heart-fill me-1"></i>
+                            <span>Subscribe newsletter</span>
+                        </button>
+                    </form>
+                </div>
+                <div id="social-area" class="mb-4">
+                    <h4>Our social networks</h4>
+                    <nav class="w-100 d-flex flex-column gap-2">
+                        <a href="#">
+                            <i class="bi bi-facebook"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-twitter-x"></i>
+                            <span>Twitter</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-pinterest"></i>
+                            <span>Pinterest</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-whatsapp"></i>
+                            <span>923 458 745</span>
+                        </a>
+                    </nav>
+                </div>
+                <div id="useful-links" class="mb-4">
+                    <h4>You can be looking for:</h4>
+                    <nav class="w-100 d-flex flex-column gap-2">
+                        <a href="#">Terms of use and privacy</a>
+                        <a href="#">Licenses</a>
+                        <a href="#">Promotions and coupons</a>
+                        <a href="#">Complaints and Returns</a>
+                    </nav>
+                </div>
+            </div>
+            <div id="copyright-area" class="mt-md-2">
+                <p class="mb-0 text-md-center">Copyright &copy; <a href="#">Manassés Ndombele</a></p>
+                <p class="mb-0 text-md-center">fullstack web developer freelancer</p>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="module" src="{% static 'js/user-data.js' %}"></script>
+    </body>
+</html>

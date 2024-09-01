@@ -1,0 +1,91 @@
+@use "../base/variables" as var
+@use "../base/mixins" as mix
+
+#main-header
+    background-color: var.$primary-color
+
+    .navbar
+        .container-fluid
+            .navbar-brand
+                font: 700 1.7em var.$mukta
+                color: var.$secondary-color
+                @include mix.tablet()
+                    font-size: 1.9em
+
+                @include mix.desktop()
+                    font-size: 1.7em
+
+                img
+                    width: 4rem
+                    height: 4rem
+                    @include mix.tablet()
+                        width: 6rem
+                        height: 6rem
+
+                    @include mix.desktop()
+                        width: 4rem
+                        height: 4rem
+
+            #navbar-options
+                button
+                    @include mix.tablet()
+                        font-size: 1.3em
+
+                    @include mix.desktop()
+                        font-size: 1em
+
+                    i
+                        font-size: 1.5em !important
+
+                #user-account-options
+                    z-index: 2
+                    background-color: var.$quartenary-color
+                    color: var.$primary-color
+                    top: 2.5rem
+                    right: 3rem
+                    opacity: 0
+                    box-shadow: 0px 0px 10px var.$primary-color-b
+                    visibility: hidden
+                    transition: all .3s ease-in
+                    @include mix.tablet()
+                        right: 4.5rem
+                        font-size: 1.2em
+                        font-weight: bold
+
+                    @include mix.desktop()
+                        overflow: hidden
+
+                    &.show
+                        visibility: visible
+                        opacity: 1
+
+                    nav
+                        a
+                            white-space: nowrap
+                            color: var.$tertiary-color
+                            transition: all .3s ease-in
+                            @include mix.tablet
+                                font-size: 1.1em
+                                font-weight: 500
+
+                            @include mix.desktop()
+                                font-size: 1em
+
+                            &:active,
+                            &:focus,
+                            &:hover
+                                color: var.$primary-color
+                                background-color: var.$tertiary-color-b
+
+                            i
+                                font-size: 1.2em
+
+                            span
+                                font: 500 1.1em var.$open-sans
+
+                    .options
+                        a
+                            button
+                                font-size: .9em
+                                @include mix.tablet()
+                                    font-size: 1.1em

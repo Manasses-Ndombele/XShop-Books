@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <meta name="user-status" content="{{ request.user.is_authenticated }}">
+        <title>XShop Books - Online shop of books</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static 'images/logo.ico' %}" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/checkout.min.css' %}">
+    </head>
+    <body>
+        <header id="main-header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo of XShop Books">
+                        XShop
+                    </a>
+                </div>
+            </nav>
+        </header>
+        <main class="py-3">
+            <div id="checkout-container">
+                <h1 class="text-center mb-3">Checkout form</h1>
+                <p class="text-center mx-md-auto">Payment in credit card or debit<br>Total payment: <strong>102,12 US$</strong></p>
+                <form class="p-3 mx-md-auto d-md-flex flex-md-column align-items-md-center" id="checkout-form" method="POST" action="{% url 'checkout' %}">
+                    <label for="bank-name-field" class="form-label w-100">Bank</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bi bi-bank2"></i>
+                        </span>
+                        <input type="text" name="bank-name" id="bank-name-field" class="form-control" placeholder="Name of bank" required>
+                    </div>
+                    <label for="holders-name-field" class="form-label w-100">Name</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bi bi-person-circle"></i>
+                        </span>
+                        <input type="text" name="holders-name" id="holders-name-field" class="form-control" placeholder="Card holder's name" required>
+                    </div>
+                    <label for="coupon-field" class="form-label w-100">Coupon</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bi bi-tags-fill"></i>
+                        </span>
+                        {% if couponsNumber == 0 %}
+                        <select name="coupon" id="coupon-field" class="form-select" required>
+                            <option value="" selected disabled>Select your coupon</option>
+                        </select>
+                        {% else %}
+                        <select name="coupon" id="coupon-field" class="form-select" required>
+                            <option value="" selected disabled>Select your coupon</option>
+                            {% for coupon in coupons %}
+                            <option value="{{ coupon.pk }}">{{ coupon.name }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </div>
+                    <label for="card-number-field" class="form-label w-100">Number</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bi bi-credit-card-2-front-fill"></i>
+                        </span>
+                        <input type="number" name="card-number" id="card-number-field" class="form-control" placeholder="Number of card">
+                    </div>
+                    <label for="month-expiration-field" class="form-label w-100">Expiration date</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bi bi-calendar-event-fill"></i>
+                        </span>
+                        <select name="month-expiration" id="month-expiration-field" class="form-select" required>
+                            <option selected disabled value="">MONTH</option>
+                            <option value="Jan">January</option>
+                            <option value="Fev">February</option>
+                            <option value="Mar">March</option>
+                            <option value="Abr">April</option>
+                            <option value="Mai">May</option>
+                            <option value="Jun">Jun</option>
+                            <option value="Jul">July</option>
+                            <option value="Ago">August</option>
+                            <option value="Set">September</option>
+                            <option value="Out">October</option>
+                            <option value="Nov">November</option>
+                            <option value="Dez">December</option>
+                        </select>
+                        <input type="number" name="year-expiration-field" id="year-expiration-field" class="form-control" placeholder="YEAR" required>
+                    </div>
+                    <label for="security-code-field" class="form-label w-100">Security code</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">
+                            <i class="bi bi-asterisk"></i>
+                        </span>
+                        <input type="password" name="security-code" id="security-code-field" class="form-control" placeholder="Security code of card">
+                    </div>
+                    <button type="submit" class="w-100 btn-system py-2 px-3 my-2 rounded-3">
+                        <i class="bi bi-credit-card-fill"></i>
+                        <span>Finish purchase</span>
+                    </button>
+                </form>
+                <p class="px-3 text-md-center mx-md-auto">When you click on 'Finish purchase', you are agreeing to our terms of use and license, as well as our privacy policy.</p>
+            </div>
+            <div id="upsell-container" class="p-3">
+                <h2 class="mb-4 container-title text-md-center">Take more books</h2>
+                <div id="books-container" class="justify-content-md-evenly justify-content-lg-around px-xl-0 mx-xl-auto"></div>
+            </div>
+            <div class="w-100 p-3 cta-container d-md-flex flex-md-column gap-md-2 p-md-4">
+                <h3 class="mb-3">Lorem ipsum dolor sit amet</h3>
+                <p class="mb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum ea debitis ad asperiores quaerat quasi totam.</p>
+                <div id="main-cta-actions">
+                    <button type="button" class="btn-system py-2 px-3 mb-3 me-2 rounded-3">
+                        <i class="bi bi-envelope-heart-fill me-1"></i>
+                        <span>Subscribe newsletter</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal fade" id="product-details-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered d-md-block">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Details</h4>
+                            <button type="button" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-system w-100 py-2 px-3 my-2 rounded-3">
+                                <i class="bi bi-cart-fill me-1"></i>
+                                <span>Add to cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="px-3 py-4 px-md-2">
+            <div id="footer-options" class="d-md-flex justify-content-md-between flex-md-row-reverse gap-md-2 justify-content-lg-around">
+                <div id="newsletter-area" class="mb-4">
+                    <h4>Stay on top of news</h4>
+                    <form>
+                        <label for="email-field" class="form-label d-block my-2">Subscribe</label>
+                        <input type="email" name="email" id="email-field" class="form-control borders mb-3 mb-2" placeholder="Enter your best email" required>
+                        <button type="submit" class="btn-system py-2 px-3 rounded-3 mt-2">
+                            <i class="bi bi-envelope-heart-fill me-1"></i>
+                            <span>Subscribe newsletter</span>
+                        </button>
+                    </form>
+                </div>
+                <div id="social-area" class="mb-4">
+                    <h4>Our social networks</h4>
+                    <nav class="w-100 d-flex flex-column gap-2">
+                        <a href="#">
+                            <i class="bi bi-facebook"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-twitter-x"></i>
+                            <span>Twitter</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-pinterest"></i>
+                            <span>Pinterest</span>
+                        </a>
+                        <a href="#">
+                            <i class="bi bi-whatsapp"></i>
+                            <span>923 458 745</span>
+                        </a>
+                    </nav>
+                </div>
+                <div id="useful-links" class="mb-4">
+                    <h4>You can be looking for:</h4>
+                    <nav class="w-100 d-flex flex-column gap-2">
+                        <a href="#">Terms of use and privacy</a>
+                        <a href="#">Licences</a>
+                        <a href="#">Promotions and coupons</a>
+                        <a href="#">Complaints and Returns</a>
+                    </nav>
+                </div>
+            </div>
+            <div id="copyright-area" class="mt-md-2">
+                <p class="mb-0 text-md-center">Copyright &copy; <a href="#">Manassés Ndombele</a></p>
+                <p class="mb-0 text-md-center">fullstack web developer freelancer</p>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="module" src="{% static 'js/checkout.js' %}"></script>
+    </body>
+</html>

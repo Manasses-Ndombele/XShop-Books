@@ -1,0 +1,23 @@
+@mixin tablet()
+    @media screen and (min-width: 768px)
+        @content
+
+@mixin desktop()
+    @media screen and (min-width: 992px)
+        @content
+
+@mixin tvDesktop()
+    @media screen and (min-width: 1200px)
+        @content
+
+@mixin booksContainer()
+    display: grid
+    grid-template-columns: 100%
+    grid-row-gap: 2rem
+    @include tablet()
+        grid-template-columns: 20rem 20rem
+        grid-column-gap: 2rem
+
+    @include desktop()
+        grid-template-columns: 32% 32% 32%
+        grid-column-gap: 1rem

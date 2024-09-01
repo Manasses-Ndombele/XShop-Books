@@ -1,0 +1,27 @@
+@use "../base/variables" as var
+@use "../base/mixins" as mix
+
+.cta-container
+    background-image: linear-gradient(45deg, var.$secondary-color 40%, var.$quinary-color)
+
+    h3,
+    h1
+        color: var.$quartenary-color
+        font: 700 1.5em var.$mukta
+        text-transform: capitalize
+        @include mix.tablet()
+            font-size: 1.7em
+
+    p
+        font: 500 1.1em var.$open-sans
+        color: var.$primary-color
+        line-height: 25px
+        @include mix.tablet()
+            font-size: 1.5em
+            width: 95%
+
+        @include mix.desktop()
+            width: 70%
+
+        @include mix.tvDesktop()
+            width: 60%
