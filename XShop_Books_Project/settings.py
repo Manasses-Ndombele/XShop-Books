@@ -3,8 +3,8 @@ from os.path import join
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%%2y33ssn6rnuiea^t4$q)0j73@1vb_i9k*)^dw*4(#pjg(c8u'
-DEBUG = False
-ALLOWED_HOSTS = ['xshop-books.onrender.com']
+DEBUG = True
+ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
