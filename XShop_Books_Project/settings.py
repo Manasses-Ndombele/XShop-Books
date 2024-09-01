@@ -73,5 +73,5 @@ USE_TZ = True
 STATIC_URL = '/XShop_Books_App/static/'
 MEDIA_URL = '/media/'
 STATIC_ROOT = join(BASE_DIR, 'XShop_Books_App', 'static')
-MEDIA_ROOT = join(BASE_DIR, 'XShop_Books_App', 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
