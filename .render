@@ -1,0 +1,5 @@
+web:
+    environment:
+        pythonVersion: 3.12
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn XShop_Books_Project:application --log-file -"

@@ -3,8 +3,8 @@ from os.path import join
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%%2y33ssn6rnuiea^t4$q)0j73@1vb_i9k*)^dw*4(#pjg(c8u'
-DEBUG = False
-ALLOWED_HOSTS = ['xshop-books.onrender.com']
+DEBUG = True
+ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -23,6 +23,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 
 ROOT_URLCONF = 'XShop_Books_Project.urls'
@@ -69,8 +70,8 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-STATIC_URL = 'static/'
-MEDIA_URL = '/media/'
+STATIC_URL = '/XShop_Books_App/static/'
+MEDIA_URL = '/XShop_Books_App/media/'
 STATIC_ROOT = join(BASE_DIR, 'XShop_Books_App', 'static')
 MEDIA_ROOT = join(BASE_DIR, 'XShop_Books_App', 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
