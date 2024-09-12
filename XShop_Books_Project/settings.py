@@ -1,10 +1,11 @@
 from pathlib import Path
-from os.path import join
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+#SECRET_KEY = os.environ['SECRET_KEY']
 SECRET_KEY = 'django-insecure-%%2y33ssn6rnuiea^t4$q)0j73@1vb_i9k*)^dw*4(#pjg(c8u'
-DEBUG = False
-ALLOWED_HOSTS = ['xshop-books.onrender.com']
+DEBUG = True
+ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -30,7 +31,7 @@ ROOT_URLCONF = 'XShop_Books_Project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [join(BASE_DIR, 'XShop_Books_App', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'XShop_Books_App', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +73,6 @@ USE_I18N = True
 USE_TZ = True
 STATIC_URL = '/XShop_Books_App/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = join(BASE_DIR, 'XShop_Books_App', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'XShop_Books_App', 'static')
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
