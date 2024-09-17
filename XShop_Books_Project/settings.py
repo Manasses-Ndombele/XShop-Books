@@ -2,10 +2,9 @@ from pathlib import Path
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-#SECRET_KEY = os.environ['SECRET_KEY']
-SECRET_KEY = 'django-insecure-%%2y33ssn6rnuiea^t4$q)0j73@1vb_i9k*)^dw*4(#pjg(c8u'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ['SECRET_KEY']
+DEBUG = False
+ALLOWED_HOSTS = ['xshop-books.onrender.com']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -67,12 +66,19 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STORAGES = {
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    }
+}
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 STATIC_URL = '/XShop_Books_App/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'XShop_Books_App', 'static')
-MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_ROOT = os.path.join(BASE_DIR, 'XShop_Books_App', 'staticfiles')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

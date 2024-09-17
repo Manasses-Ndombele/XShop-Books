@@ -20,4 +20,7 @@ urlpatterns = [
     path('checkout/', checkout, name='checkout'),
     path('load-shopping-cart/', load_shopping_cart, name='load_shopping_cart'),
     path('thank-u/', thank_u, name='thank_u')
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
